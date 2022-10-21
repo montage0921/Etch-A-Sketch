@@ -5,13 +5,17 @@ const slideValue = document.querySelector(`.select-value`);
 const clearBtn = document.querySelector(`.clear`);
 const eraserBtn = document.querySelector(`.eraser`);
 const drawBtn = document.querySelector(`.draw`);
+const palette = document.querySelector(`.palette`);
+const confirmBtn = document.querySelector(`.confirm`);
 
 ///////////////////////////////////////
-let gridPerLine; //16x16
+let gridPerLine;
 let grids = ``;
 const grid = `<div class="grid" ></div>`;
 const color = `white`;
 let value;
+let newColor = ``;
+let isDown = false;
 
 slider.addEventListener(`input`, function (e) {
   value = e.target.value;
@@ -45,7 +49,8 @@ clearBtn.addEventListener(`click`, function () {
   slider.value = 0;
   slideValue.textContent = ``;
   canvas.innerHTML = ``;
-  newColor = `black`;
+  newColor = ``;
+  palette.value = `#000000`;
 });
 
 //Set up a "mouse hover" effect
@@ -58,11 +63,11 @@ canvas.addEventListener(`mouseout`, function (e) {
 });
 
 //draw on the canvas when dragging over or clicking grids
-let newColor = `black`;
-let isDown = false;
 
 canvas.addEventListener(`mousedown`, function (e) {
-  isDown = true;
+  const childrenList = canvas.children;
+
+  if (childrenList.length !== 0) isDown = true;
 });
 
 canvas.addEventListener(`mouseup`, function (e) {
@@ -88,6 +93,12 @@ eraserBtn.addEventListener(`click`, function (e) {
   newColor = `white`;
 });
 
+//Draw Function
 drawBtn.addEventListener(`click`, function (e) {
   newColor = `black`;
+});
+
+//Palette Function
+confirmBtn.addEventListener(`click`, function (e) {
+  newColor = palette.value;
 });
