@@ -19,9 +19,9 @@ body {
   display: grid;
   box-sizing: border-box;
   border-style: solid;
-  border-color: bisque;
-  width: 500px;
-  height: 500px;
+
+  width: 960px;
+  height: 960px;
 
   /* grid-template-columns: repeat(16, 1fr); apply in js file
   grid-template-rows: repeat(16, 1fr);  apply in js file*/
