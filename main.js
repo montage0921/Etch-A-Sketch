@@ -3,7 +3,7 @@ const canvas = document.querySelector(`.canvas`);
 
 /////////////////////////////////////////////////
 const gridPerLine = 16; //16x16
-const color = `red`; //grid color
+const color = `white`; //grid color
 
 let grids = ``;
 const grid = `<div class="grid" ></div>`;
@@ -27,9 +27,9 @@ canvas.style.gridTemplateRows = `repeat(${gridPerLine}, 1fr)`;
 
 //Set up a "mouse hover" effect
 canvas.addEventListener(`mouseover`, function (e) {
-  e.target.style.backgroundColor = `black`;
+  e.target.style.filter = `brightness(0.5)`;
 });
 
 canvas.addEventListener(`mouseout`, function (e) {
-  e.target.style.backgroundColor = color;
+  e.target.style.filter = `brightness(1)`;
 });
