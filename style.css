@@ -42,6 +42,25 @@ body {
   margin-left: auto;
 }
 
+.feature {
+  width: 180px;
+  height: 50px;
+  font-family: sketchFont;
+  font-size: 40px;
+  text-align: center;
+  line-height: 50px;
+  border-radius: 10px;
+  transition: all 0.5s ease;
+}
+
+.feature:hover {
+  transform: scale(1.1);
+}
+
+.feature:active {
+  filter: brightness(0.5);
+}
+
 .canvas {
   margin-right: 0%;
   margin-left: 50px;

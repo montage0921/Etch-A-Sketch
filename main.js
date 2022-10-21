@@ -2,15 +2,20 @@
 const canvas = document.querySelector(`.canvas`);
 const slider = document.querySelector(`.grid-size-slider`);
 const slideValue = document.querySelector(`.select-value`);
+const clearBtn = document.querySelector(`.clear`);
+const eraserBtn = document.querySelector(`.eraser`);
+const drawBtn = document.querySelector(`.draw`);
 
-/////////////////////////////////////////////
+///////////////////////////////////////
 let gridPerLine; //16x16
 let grids = ``;
 const grid = `<div class="grid" ></div>`;
 const color = `white`;
+let value;
 
 slider.addEventListener(`input`, function (e) {
-  let value = e.target.value;
+  value = e.target.value;
+
   slideValue.textContent = `${value}x${value}`;
   gridPerLine = value;
 
@@ -22,6 +27,7 @@ slider.addEventListener(`input`, function (e) {
       grids += grid;
     }
   }
+
   canvas.insertAdjacentHTML(`afterbegin`, grids);
 
   //generate grid of square using CSS Grid
@@ -34,6 +40,14 @@ slider.addEventListener(`input`, function (e) {
   totalGrids.forEach((grid) => (grid.style.backgroundColor = color));
 });
 
+//clear button
+clearBtn.addEventListener(`click`, function () {
+  slider.value = 0;
+  slideValue.textContent = ``;
+  canvas.innerHTML = ``;
+  newColor = `black`;
+});
+
 //Set up a "mouse hover" effect
 canvas.addEventListener(`mouseover`, function (e) {
   e.target.style.filter = `brightness(0.9)`;
@@ -43,8 +57,10 @@ canvas.addEventListener(`mouseout`, function (e) {
   e.target.style.filter = `brightness(1)`;
 });
 
-//change color when dragging
+//draw on the canvas when dragging over or clicking grids
+let newColor = `black`;
 let isDown = false;
+
 canvas.addEventListener(`mousedown`, function (e) {
   isDown = true;
 });
@@ -59,10 +75,19 @@ canvas.addEventListener(`mouseleave`, function (e) {
 
 canvas.addEventListener(`mousemove`, function (e) {
   if (isDown === true) {
-    e.target.style.backgroundColor = `black`;
+    e.target.style.backgroundColor = newColor;
   }
 });
 
 canvas.addEventListener(`click`, function (e) {
-  e.target.style.backgroundColor = `black`;
+  if (isDown === true) e.target.style.backgroundColor = newColor;
+});
+
+//Eraser function
+eraserBtn.addEventListener(`click`, function (e) {
+  newColor = `white`;
+});
+
+drawBtn.addEventListener(`click`, function (e) {
+  newColor = `black`;
 });
