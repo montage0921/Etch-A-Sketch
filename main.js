@@ -95,10 +95,5 @@ eraserBtn.addEventListener(`click`, function (e) {
 
 //Draw Function
 drawBtn.addEventListener(`click`, function (e) {
-  newColor = `black`;
-});
-
-//Palette Function
-confirmBtn.addEventListener(`click`, function (e) {
   newColor = palette.value;
 });

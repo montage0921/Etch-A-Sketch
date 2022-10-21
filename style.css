@@ -25,11 +25,12 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 15px;
 }
 
 .toolbar span {
   font-weight: 900;
+  font-size: 23px;
 }
 
 .grid-size-slider {
@@ -62,20 +63,12 @@ body {
 }
 
 .palette {
-  opacity: 1;
-
   width: 80px;
   height: 80px;
 }
 
 .colorBtn {
   font-size: 30px;
-}
-
-.confirm.feature {
-  width: 120px;
-  height: 50px;
-  font-size: 15px;
 }
 
 .canvas {
