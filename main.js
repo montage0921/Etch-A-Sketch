@@ -14,7 +14,7 @@ let grids = ``;
 const grid = `<div class="grid" ></div>`;
 const color = `white`;
 let value;
-let newColor = ``;
+let newColor = `white`;
 let isDown = false;
 
 slider.addEventListener(`input`, function (e) {
@@ -41,7 +41,7 @@ slider.addEventListener(`input`, function (e) {
   const totalGrids = document.querySelectorAll(`.grid`);
 
   //assign grid color
-  totalGrids.forEach((grid) => (grid.style.backgroundColor = color));
+  // totalGrids.forEach((grid) => (grid.style.backgroundColor = color));
 });
 
 //clear button
@@ -53,6 +53,7 @@ clearBtn.addEventListener(`click`, function () {
   palette.value = `#000000`;
   canvas.style.gridTemplateColumns = `repeat(1, 1fr)`;
   canvas.style.gridTemplateRows = `repeat(1, 1fr)`;
+  isDown = false;
 });
 
 //Set up a "mouse hover" effect
@@ -83,10 +84,6 @@ canvas.addEventListener(`mousemove`, function (e) {
   if (isDown === true) {
     e.target.style.backgroundColor = newColor;
   }
-});
-
-canvas.addEventListener(`click`, function (e) {
-  e.target.style.backgroundColor = newColor;
 });
 
 //Eraser function
