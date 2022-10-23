@@ -14,7 +14,7 @@ let grids = ``;
 const grid = `<div class="grid" ></div>`;
 const color = `white`;
 let value;
-let newColor = `white`;
+let newColor = `black`;
 let isDown = false;
 
 slider.addEventListener(`input`, function (e) {
@@ -49,7 +49,7 @@ clearBtn.addEventListener(`click`, function () {
   slider.value = 1;
   slideValue.textContent = `1x1`;
   canvas.innerHTML = `<div class="grid" ></div>`;
-  newColor = ``;
+  newColor = `black`;
   palette.value = `#000000`;
   canvas.style.gridTemplateColumns = `repeat(1, 1fr)`;
   canvas.style.gridTemplateRows = `repeat(1, 1fr)`;
@@ -92,6 +92,10 @@ eraserBtn.addEventListener(`click`, function (e) {
 });
 
 //Draw Function
-drawBtn.addEventListener(`click`, function (e) {
+// drawBtn.addEventListener(`click`, function (e) {
+//   newColor = palette.value;
+// });
+
+palette.addEventListener(`change`, function () {
   newColor = palette.value;
 });
