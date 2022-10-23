@@ -114,3 +114,8 @@ rainbowBtn.addEventListener(`click`, function () {
   isRainbowMode = true;
   draw();
 });
+
+drawBtn.addEventListener(`click`, function (e) {
+  isRainbowMode = false;
+  newColor = `black`;
+});
