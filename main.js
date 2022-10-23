@@ -7,6 +7,7 @@ const eraserBtn = document.querySelector(`.eraser`);
 const drawBtn = document.querySelector(`.draw`);
 const palette = document.querySelector(`.palette`);
 const confirmBtn = document.querySelector(`.confirm`);
+const rainbowBtn = document.querySelector(`.rainbow`);
 
 ///////////////////////////////////////
 let gridPerLine;
@@ -16,6 +17,8 @@ const color = `white`;
 let value;
 let newColor = `black`;
 let isDown = false;
+const rgbArr = [0, 0, 0];
+let rainbowMode = false;
 
 slider.addEventListener(`input`, function (e) {
   value = e.target.value;
@@ -54,6 +57,7 @@ clearBtn.addEventListener(`click`, function () {
   canvas.style.gridTemplateColumns = `repeat(1, 1fr)`;
   canvas.style.gridTemplateRows = `repeat(1, 1fr)`;
   isDown = false;
+  rainbowMode = false;
 });
 
 //Set up a "mouse hover" effect
@@ -66,36 +70,50 @@ canvas.addEventListener(`mouseout`, function (e) {
 });
 
 //draw on the canvas when dragging over grids or clicking a single grid
-canvas.addEventListener(`mousedown`, function (e) {
-  const childrenList = canvas.children;
 
-  if (childrenList.length !== 0) isDown = true;
-});
+function draw() {
+  canvas.addEventListener(`mousedown`, function (e) {
+    const childrenList = canvas.children;
+    if (childrenList.length !== 0) isDown = true;
+  });
 
-canvas.addEventListener(`mouseup`, function (e) {
-  isDown = false;
-});
+  canvas.addEventListener(`mouseup`, function (e) {
+    isDown = false;
+  });
 
-canvas.addEventListener(`mouseleave`, function (e) {
-  isDown = false;
-});
+  canvas.addEventListener(`mouseleave`, function (e) {
+    isDown = false;
+  });
 
-canvas.addEventListener(`mousemove`, function (e) {
-  if (isDown === true) {
-    e.target.style.backgroundColor = newColor;
-  }
-});
+  canvas.addEventListener(`mousemove`, function (e) {
+    if (isDown === true && rainbowMode === false) {
+      e.target.style.backgroundColor = newColor;
+    } else if (isDown === true && rainbowMode === true) {
+      console.log(`ok`);
+      const newArr = rgbArr.map((color) => Math.floor(Math.random() * 255));
+
+      [red, green, blue] = newArr;
+
+      newColor = `rgb(${red},${green},${blue})`;
+      e.target.style.backgroundColor = newColor;
+    }
+  });
+}
+
+draw();
 
 //Eraser function
 eraserBtn.addEventListener(`click`, function (e) {
+  rainbowMode = false;
   newColor = `white`;
 });
 
-//Draw Function
-// drawBtn.addEventListener(`click`, function (e) {
-//   newColor = palette.value;
-// });
-
 palette.addEventListener(`change`, function () {
+  rainbowMode = false;
   newColor = palette.value;
+});
+
+rainbowBtn.addEventListener(`click`, function () {
+  rainbowMode = true;
+  draw();
 });
