@@ -1,36 +1,37 @@
 //////DOM Selectors///////
 const canvas = document.querySelector(`.canvas`);
 const slider = document.querySelector(`.grid-size-slider`);
-const slideValue = document.querySelector(`.select-value`);
+const sliderLabelValue = document.querySelector(`.select-value`);
 const clearBtn = document.querySelector(`.clear`);
 const eraserBtn = document.querySelector(`.eraser`);
 const drawBtn = document.querySelector(`.draw`);
-const palette = document.querySelector(`.palette`);
 const confirmBtn = document.querySelector(`.confirm`);
 const rainbowBtn = document.querySelector(`.rainbow`);
+const palette = document.querySelector(`.palette`);
 
-///////////////////////////////////////
-let gridPerLine;
+//////Parameters & Default Conditions///////
 let grids = ``;
 const grid = `<div class="grid" ></div>`;
-const color = `white`;
-let value;
-let newColor = `black`;
-let isDown = false;
-const rgbArr = [0, 0, 0];
-let rainbowMode = false;
+let size; // e.g. 16X16
+const rgbArr = [0, 0, 0]; //use for rainbow mode
 
+let newColor = `black`; //color is black by default
+let isDown = false; //mouse isn't pressed down by default
+let isRainbowMode = false; //rainbow mode is off by default
+
+//////Implement Features///////
+//1. Change Canvas Size
 slider.addEventListener(`input`, function (e) {
-  value = e.target.value;
+  size = e.target.value;
 
-  slideValue.textContent = `${value}x${value}`;
-  gridPerLine = value;
+  sliderLabelValue.textContent = `${size}x${size}`;
 
+  //Clear grids firstly
   grids = ``;
   canvas.innerHTML = ``;
 
-  for (let i = 1; i <= gridPerLine; i++) {
-    for (let j = 1; j <= gridPerLine; j++) {
+  for (let i = 1; i <= size; i++) {
+    for (let j = 1; j <= size; j++) {
       grids += grid;
     }
   }
@@ -38,29 +39,24 @@ slider.addEventListener(`input`, function (e) {
   canvas.insertAdjacentHTML(`afterbegin`, grids);
 
   //generate grid of square using CSS Grid
-  canvas.style.gridTemplateColumns = `repeat(${gridPerLine}, 1fr)`;
-  canvas.style.gridTemplateRows = `repeat(${gridPerLine}, 1fr)`;
-
-  const totalGrids = document.querySelectorAll(`.grid`);
-
-  //assign grid color
-  // totalGrids.forEach((grid) => (grid.style.backgroundColor = color));
+  canvas.style.gridTemplateColumns = `repeat(${size}, 1fr)`; //number of grids you want on each column
+  canvas.style.gridTemplateRows = `repeat(${size}, 1fr)`; //number of grids you want on each row
 });
 
-//clear button
+//2.  Clear Button
 clearBtn.addEventListener(`click`, function () {
   slider.value = 1;
-  slideValue.textContent = `1x1`;
+  sliderLabelValue.textContent = `1x1`;
   canvas.innerHTML = `<div class="grid" ></div>`;
   newColor = `black`;
   palette.value = `#000000`;
   canvas.style.gridTemplateColumns = `repeat(1, 1fr)`;
   canvas.style.gridTemplateRows = `repeat(1, 1fr)`;
   isDown = false;
-  rainbowMode = false;
+  isRainbowMode = false;
 });
 
-//Set up a "mouse hover" effect
+//3. Set up a "mouse hover" effect
 canvas.addEventListener(`mouseover`, function (e) {
   e.target.style.filter = `brightness(0.9)`;
 });
@@ -69,9 +65,9 @@ canvas.addEventListener(`mouseout`, function (e) {
   e.target.style.filter = `brightness(1)`;
 });
 
-//draw on the canvas when dragging over grids or clicking a single grid
-
+//4. Draw on the Canvas when Dragging Over Grids
 function draw() {
+  //The following 4 event listeners are used to judge if `dragging` happens.
   canvas.addEventListener(`mousedown`, function (e) {
     const childrenList = canvas.children;
     if (childrenList.length !== 0) isDown = true;
@@ -86,10 +82,9 @@ function draw() {
   });
 
   canvas.addEventListener(`mousemove`, function (e) {
-    if (isDown === true && rainbowMode === false) {
+    if (isDown === true && isRainbowMode === false) {
       e.target.style.backgroundColor = newColor;
-    } else if (isDown === true && rainbowMode === true) {
-      console.log(`ok`);
+    } else if (isDown === true && isRainbowMode === true) {
       const newArr = rgbArr.map((color) => Math.floor(Math.random() * 255));
 
       [red, green, blue] = newArr;
@@ -102,18 +97,20 @@ function draw() {
 
 draw();
 
-//Eraser function
+//5. Eraser Function
 eraserBtn.addEventListener(`click`, function (e) {
-  rainbowMode = false;
+  isRainbowMode = false;
   newColor = `white`;
 });
 
+//6. Palette Function (Change Colors)
 palette.addEventListener(`change`, function () {
-  rainbowMode = false;
+  isRainbowMode = false;
   newColor = palette.value;
 });
 
+// 7. Rainbow Function(Random Colors when Drawing)
 rainbowBtn.addEventListener(`click`, function () {
-  rainbowMode = true;
+  isRainbowMode = true;
   draw();
 });
